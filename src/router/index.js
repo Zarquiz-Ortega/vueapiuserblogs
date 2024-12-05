@@ -11,17 +11,17 @@ const router = createRouter({
     {
       path: '/users',
       name: 'Users',
-      component: () => import('@/modules/User/components/UserView.vue'),
+      component: () => import('@/views/modules/user/components/UserView.vue'),
     },
     {
       path: '/blogs',
       name: 'Blogs',
-      component: () => import('@/modules/Blogs/components/BlogView.vue'),
+      component: () => import('@/views/modules/blogs/components/BlogView.vue'),
     },
     {
       path: '/posts',
       name: 'Posts',
-      component: () => import('@/modules/Posts/components/PostsView.vue'),
+      component: () => import('@/views/modules/posts/components/PostsView.vue'),
     },
   ],
 })

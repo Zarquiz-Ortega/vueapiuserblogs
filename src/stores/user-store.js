@@ -1,20 +1,25 @@
-import { createUser, deleteUser, getUsers } from "@/http/users";
+import { createUser, deleteUser, getUsers, getUserWitoutBlog, updateUser } from "@/http/users";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useUserStore = defineStore('userStore', () => {
     const users = ref([]);
+    const isLoading = ref(false);
+    const userWitoutBlogs = ref ([])
 
     const fetchAllUsers = async () => {
+        isLoading.value = true;
         try {
             const { data } = await getUsers();
             users.value = data;
         } catch (error) {
             console.log(error);
+        }finally{
+            isLoading.value = false;
         }
     }
 
-    const handleCreateUser = async (request) => {
+    const handleCreatUser = async (request) => {
         try {
             const {data} = await createUser(request)
             users.value.push(data);
@@ -44,7 +49,15 @@ export const useUserStore = defineStore('userStore', () => {
     const handelDeleteUser = async (id) => {
         try {
             await deleteUser(id);
-            await fetchAllUsers();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const fetchUserWitouBlog = async () => {
+        try {
+            const { data } = await getUserWitoutBlog()
+            userWitoutBlogs.value = data
         } catch (error) {
             console.log(error);
         }
@@ -52,10 +65,13 @@ export const useUserStore = defineStore('userStore', () => {
 
     return {
         fetchAllUsers,
-        handleCreateUser,
+        handleCreatUser,
         handleShowUser,
         handleUpdate,
         handelDeleteUser,
+        fetchUserWitouBlog,
         users,
+        userWitoutBlogs,
+        isLoading,
     }
 })

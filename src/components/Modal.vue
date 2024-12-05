@@ -1,33 +1,34 @@
 <template>
-    <div class="text-center pa-4">
-        <v-dialog v-model="props.show" width="auto">
-            <v-card max-width="400" prepend-icon="mdi-update"
-                text="Your application will relaunch automatically after the update is complete."
-                title="Update in progress">
-                <slot></slot>
-                <v-btn @click="handleSubmit">cerrar</v-btn>
-            </v-card>
-        </v-dialog>
-    </div>
+    <v-dialog :model-value="modelValue" @update:model-value="updateValue" width="auto">
+        <v-card min-width="400">
+            <v-card-title>{{ title }}</v-card-title>
+            <v-card-text>
+                <!-- Renderiza el contenido dinámico del slot -->
+                <slot @close-modal="closeModal"></slot>
+            </v-card-text>
+            <v-card-actions>
+                <v-btn color="error" @click="closeModal">Cerrar</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
-import { defineEmits } from 'vue';
+import { defineProps, defineEmits, ref } from 'vue';
 
 const props = defineProps({
-    show: {
-        required:true,
-        type: Boolean,
-    }
-})
+    modelValue: { type: Boolean, required: true },
+    title: { type: String, required: true },
+});
 
-const handleSubmit  = () => {
+const emits = defineEmits(['update:modelValue', 'close-modal']);
+
+const updateValue = (value) => {
+    emits('update:modelValue', value);
+};
+
+const closeModal = () => {
+    emits('update:modelValue', false);
     emits('close-modal');
-}
-
-const emits = defineEmits('close-modal')
-
+};
 </script>
-
-<style scoped></style>  

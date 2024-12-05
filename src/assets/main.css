@@ -5,3 +5,8 @@
 .v-card-title{
     font-size: 2rem !important;
 }
+
+.add-button{
+    @apply bg-green-600 p-2 rounded-md text-base w-full font-bold;
+    color: white !important;
+}

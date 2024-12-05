@@ -13,3 +13,4 @@ export const showBlog = (id) => axios.get(`${api}/${id}`);
 export const updateBlog = (id, data) => axios.patch(`${api}/${id}`, data);
 
 export const deleteBlog = (id) => axios.delete(`${api}/${id}`);
+
